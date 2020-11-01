@@ -1,7 +1,7 @@
 import { getProductById } from './getProductById';
 import * as products from '../staticData/productsList.json';
 
-test('should return code 400', done => {
+test('should return code 400 if id wasn\'t provided', done => {
 	function callback(data) {
 		try {
 			expect(data.statusCode).toBe(400);
@@ -29,7 +29,7 @@ test('should return found product', done => {
 	(getProductById({pathParameters: { productId: products[0].id}}, null, null)).then(callback);
 });
 
-test('should return found product', done => {
+test('should return error if product not found', done => {
 	function callback(data) {
 		try {
 			expect(data.statusCode).toBe(404);
