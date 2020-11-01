@@ -4,7 +4,7 @@ import 'source-map-support/register';
 import { headers } from '../constants';
 
 export const getProductById: APIGatewayProxyHandler = async (event, _context, _callback) => {
-  const productId = event?.queryStringParameters?.productId;
+  const { productId } = event.pathParameters;
 
   if (!productId) {
     return {
