@@ -1,15 +1,15 @@
-import { APIGatewayProxyHandler } from "aws-lambda";
+import { APIGatewayProxyHandler } from 'aws-lambda';
 import * as products from '../staticData/productsList.json';
 import 'source-map-support/register';
-import { headers } from "../constants";
+import { headers } from '../constants';
 
-export const getProductById: APIGatewayProxyHandler = async (event, _context) => {
-  const productId = event.queryStringParameters?.productId;
+export const getProductById: APIGatewayProxyHandler = async (event, _context, _callback) => {
+  const productId = event?.queryStringParameters?.productId;
 
   if (!productId) {
     return {
       statusCode: 400,
-      body: "Wrong parameters",
+      body: 'Wrong parameters',
       headers
     }
   }
