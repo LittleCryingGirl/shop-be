@@ -4,15 +4,15 @@ import 'source-map-support/register';
 import { headers } from '../constants';
 
 export const getProductById: APIGatewayProxyHandler = async (event, _context, _callback) => {
-  const { productId } = event.pathParameters;
-
-  if (!productId) {
+  if (!event?.pathParameters?.productId) {
     return {
       statusCode: 400,
       body: 'Wrong parameters',
       headers
     }
   }
+
+  const { productId } = event.pathParameters;
 
   const product = products.find(p => p.id === productId);
 

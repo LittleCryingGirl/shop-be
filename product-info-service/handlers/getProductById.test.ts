@@ -26,7 +26,7 @@ test('should return found product', done => {
 		}
 	}
 	// @ts-ignore-next-line
-	(getProductById({queryStringParameters: { productId: products[0].id}}, null, null)).then(callback);
+	(getProductById({pathParameters: { productId: products[0].id}}, null, null)).then(callback);
 });
 
 test('should return found product', done => {
@@ -40,5 +40,5 @@ test('should return found product', done => {
 		}
 	}
 	// @ts-ignore-next-line
-	(getProductById({queryStringParameters: { productId: -1}}, null, null)).then(callback);
+	(getProductById({pathParameters: { productId: -1}}, null, null)).then(callback);
 });
