@@ -1,16 +1,14 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import { headers } from "../constants";
-import { getProductsFromDB } from '../pg-client-lambda';
+import { addNewProductToBD } from '../pg-client-lambda';
 
-export const getAllProducts: APIGatewayProxyHandler = async () => {
-  const products = await getProductsFromDB();
+export const addNewProduct: APIGatewayProxyHandler = async (params) => {
   try {
+    await addNewProductToBD(params);
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        products
-      }),
+      body: 'Successfully added!',
       headers
     };
   } catch {

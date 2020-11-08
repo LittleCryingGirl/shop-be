@@ -1,5 +1,5 @@
 import { getAllProducts } from "./getAllProducts";
-import * as products from '../staticData/productsList.json';
+import * as products from './__mocks__/productsList.json';
 
 test('should return full products list', done => {
 	function callback(data) {
