@@ -10,13 +10,13 @@ export const addNewProduct: APIGatewayProxyHandler = async (params) => {
     console.log(product)
     return {
       statusCode: 200,
-      body: product,
+      body: JSON.stringify(product),
       headers
     };
   } catch (e) {
     return {
       statusCode: 500,
-      body: e,
+      body: JSON.stringify(e),
       headers
     }
   }
