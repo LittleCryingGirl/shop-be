@@ -7,6 +7,7 @@ export const addNewProduct: APIGatewayProxyHandler = async (params) => {
   console.log('add params: ',params.body);
   try {
     const product = await addNewProductToBD(JSON.parse(params.body));
+    console.log(product)
     return {
       statusCode: 200,
       body: product,
