@@ -4,17 +4,18 @@ import { headers } from "../constants";
 import { addNewProductToBD } from '../pg-client-lambda';
 
 export const addNewProduct: APIGatewayProxyHandler = async (params) => {
+  console.log('add params: ',params.body);
   try {
-    await addNewProductToBD(params);
+    const product = await addNewProductToBD(JSON.parse(params.body));
     return {
       statusCode: 200,
-      body: 'Successfully added!',
+      body: product,
       headers
     };
-  } catch {
+  } catch (e) {
     return {
       statusCode: 500,
-      body: 'Whoops!.. Something went wrong :(',
+      body: e,
       headers
     }
   }
