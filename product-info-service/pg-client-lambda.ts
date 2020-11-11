@@ -26,7 +26,7 @@ export const getProductsFromDB = async () => {
   await createIfNotExists(client);
 
   try {
-    const { rows: products } = await client.query(`select * from products p left join stocks s on p.id = s.product_id`);
+    const { rows: products } = await client.query(`select * FROM products p left join (select count, product_id from stocks) as s ON s.product_id = p.id`);
     console.log(products);
     return products;
 
@@ -45,9 +45,15 @@ export const getProductByIdFromDB = async (id) => {
   await client.connect();
 
   try {
-    const {rows: product} = await client.query(`select * from products p where p.id = ${id} left join stocks s on ${id} = s.product_id`);
-    console.log(product);
-    return product;
+    const { rows: product } = await client.query(`select * from products p where p.id = $1`, [id]);
+    const { rows: stock } = await client.query(`select * from stocks s where s.product_id = $1`, [id]);
+    console.log('product: ', product[0]);
+    console.log('stock: ', stock[0]);
+
+    return {
+      ...product[0],
+      count: stock[0].count
+    }
 
   } catch (e) {
     console.error('Whoops!... Some error occurred during database request executing: ', e);
@@ -70,7 +76,7 @@ export const addNewProductToBD = async ({ description, title, price, image_url, 
     console.log(new_stock);
     return {
       ...new_product.rows[0],
-      ...new_stock.rows[0].count
+      count: new_stock[0].count
     }
   } catch (e) {
     throw new Error(`Whoops!... Some error occurred during database request executing: ${e}`)

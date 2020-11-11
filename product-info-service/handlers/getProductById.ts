@@ -21,10 +21,10 @@ export const getProductById: APIGatewayProxyHandler = async (event, _context, _c
         headers
       }
     }
-  } catch {
+  } catch(e) {
     return {
       statusCode: 500,
-      body: 'Whoops!.. Something went wrong :(',
+      body: JSON.stringify(e),
       headers
     }
   }
