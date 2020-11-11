@@ -76,7 +76,7 @@ export const addNewProductToBD = async ({ description, title, price, image_url, 
     console.log(new_stock);
     return {
       ...new_product.rows[0],
-      count: new_stock[0].count
+      count: new_stock.rows[0].count
     }
   } catch (e) {
     throw new Error(`Whoops!... Some error occurred during database request executing: ${e}`)
