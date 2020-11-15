@@ -1,11 +1,11 @@
 import { getProductById } from './getProductById';
-import * as products from '../staticData/productsList.json';
+import * as products from './__mocks__/productsList.json';
 
 test('should return code 400 if id wasn\'t provided', done => {
 	function callback(data) {
 		try {
-			expect(data.statusCode).toBe(400);
-			expect(data.body).toBe('Wrong parameters');
+			expect(data.statusCode).toBe(500);
+			expect(data.body).toBe('Whoops!.. Something went wrong :(');
 			done();
 		} catch (error) {
 			done(error);
