@@ -1,4 +1,4 @@
-import type { Serverless } from 'serverless/aws';
+import { Serverless } from "serverless/plugins/aws/provider/awsProvider";
 
 const serverlessConfiguration: Serverless = {
   service: {
@@ -70,7 +70,8 @@ const serverlessConfiguration: Serverless = {
           },
         }
       ]
-    }
+    },
+
   }
 }
 
