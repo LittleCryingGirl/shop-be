@@ -2,7 +2,7 @@ import { Serverless } from "serverless/plugins/aws/provider/awsProvider";
 
 const serverlessConfiguration: Serverless = {
   service: {
-    name: 'product-info-service',
+    name: 'import-service-example',
     // app and org for use with dashboard.serverless.com
     // app: your-app-name,
     // org: your-org-name,
@@ -26,52 +26,52 @@ const serverlessConfiguration: Serverless = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
     },
     region: 'eu-west-1',
+    iamRoleStatements: [{
+      Effect: 'Allow',
+      Action: ['s3:ListBucket', 's3:GetObject'],
+      Resource: 'arn:aws:s3:::import-service-example'
+    }, {
+      Effect: 'Allow',
+      Action: 's3:*',
+      Resource: 'arn:aws:s3:::import-service-example/*'
+    }],
   },
   functions: {
-    getProductById: {
-      handler: 'handler.getProductById',
+    importProductsFile: {
+      handler: 'handler.importProductsFile',
       events: [
         {
           http: {
             method: 'get',
-            path: 'products/{productId}',
+            path: 'import',
             request: {
               parameters: {
-                paths: {
-                  productId: true
+                querystrings: {
+                  name: true
                 }
               }
             },
             cors: true
-          },
+          }
         }
       ]
     },
-    addNewProduct: {
-      handler: 'handler.addNewProduct',
+    importFileParser: {
+      handler: 'handler.importFileParser',
       events: [
         {
-          http: {
-            method: 'post',
-            path: 'products',
-            cors: true
-          },
+          s3: {
+            event: 's3:ObjectCreated:*',
+            bucket: 'import-service-example',
+            rules: [{
+              prefix: 'uploaded/',
+              suffix: '.csv'
+            }],
+            existing: true
+          }
         }
       ]
-    },
-    getAllProducts: {
-      handler: 'handler.getAllProducts',
-      events: [
-        {
-          http: {
-            method: 'get',
-            path: 'products',
-            cors: true
-          },
-        }
-      ]
-    },
-
+    }
   }
 }
 

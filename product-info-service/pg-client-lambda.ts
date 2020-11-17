@@ -88,7 +88,7 @@ export const addNewProductToBD = async ({ description, title, price, image_url, 
 
 const createIfNotExists = async (client) => {
 
-  const createProductsTableDdl = await client.query(`
+  await client.query(`
     create table if not exists products (
       id serial primary key,
       description text,
@@ -96,7 +96,7 @@ const createIfNotExists = async (client) => {
       title text
     )
   `);
-  const createStocksTableDdl = await client.query(`
+  await client.query(`
     create table if not exists stocks (
       id serial primary key,
       product_id uuid,
